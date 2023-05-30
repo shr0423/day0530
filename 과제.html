@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper {
+            width: 800px;
+            height: 800px;
+            background: gray;
+        }
+
+        #header {
+            width: 100%;
+            height: 100px;
+            background: orange;
+        }
+
+        #photo {
+            width: 100%;
+            height: 400px;
+            background: greenyellow;
+            text-align: center;
+        }
+
+        #photo img {
+            height: 100%;
+        }
+
+        #msg {
+            width: 100%;
+            height: 200px;
+            background: plum;
+        }
+
+        #footer {
+            width: 100%;
+            height: 100px;
+            background: wheat;
+            text-align: center;
+
+        }
+
+        button {
+            font-size: 50px;
+        }
+    </style>
+    <script>
+        let header;
+        let img;
+        let msg;
+        let flag = true;
+        let st;
+        let index = 0;
+        
+        function init() {
+            let obj = {
+                "photo": [
+                    { "title": "이미지1", "url": "../images/card/h1.png" },
+                    { "title": "이미지2", "url": "../images/card/h2.png" },
+                    { "title": "이미지3", "url": "../images/card/h3.png" },
+                    { "title": "이미지4", "url": "../images/card/h4.png" },
+                    { "title": "이미지5", "url": "../images/card/h5.png" },
+                    { "title": "이미지6", "url": "../images/card/h6.png" },
+                    { "title": "이미지7", "url": "../images/card/h7.png" },
+                    { "title": "이미지8", "url": "../images/card/h8.png" },
+                    { "title": "이미지9", "url": "../images/card/h9.png" },
+                    { "title": "이미지10", "url": "../images/card/h10.png" }
+                ]
+            }
+
+        }
+        function slide() {
+            if (flag) {
+                index++;
+                if (index >= photo.length)
+                    alert("다음사진이 없습니다");
+                clearTimeout(st);
+                index = photo.length - 1;
+            } else {
+                index--;
+                if (index < 0) {
+                    alert("이전사진이 없습니다");
+                    index = 0;
+                    clearTimeout(st);
+                }
+            }
+            img.src = obj.photo.url.src;
+            showTitle();
+        }
+        function showTitle() {
+
+            header = document.getElementById("header");
+            header.innerText = photo.title[0];
+            console.log(photo.title[0]);
+
+        }
+        function showDetail() {
+            img = document.createElement("img");
+            img.src = obj.photo.url.src(0);
+        }
+        function showMsg() {
+            msg = document.getElementById("msg");
+            msg.innerText = obj.photo.title(0);
+        }
+        addEventListener("load", function () {
+            init();
+            showTitle();
+            showDetail();
+            showMsg();
+            document.getElementById("bt_prev").addEventListener("click", function () {
+                flag = false;
+                slide();
+            });
+            document.getElementById("bt_auto").addEventListener("click", function () {
+                st = setInterval("slide()", 1000);
+
+                this.disabled = true;
+                document.getElementById("bt_stop").disabled = false;
+            });
+
+            document.getElementById("bt_stop").addEventListener("click", function () {
+
+                document.getElementById("bt_auto").disabled = false;
+                this.disabled = true;
+                clearTimeout(st);
+            });
+            document.getElementById("bt_next").addEventListener("click", function () {
+                flag = true;
+                slide();
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="header">파일명</div>
+        <div id="photo">
+            <img src="../images/card/h1.png">
+        </div>
+        <div id="msg">설명</div>
+        <div id="footer">
+            <button id="bt_prev">◀</button>
+            <button id="bt_auto">Auto</button>
+            <button id="bt_stop">Stop</button>
+            <button id="bt_next">▶</button>
+        </div>
+    </div>
+</body>
+
+</html>
